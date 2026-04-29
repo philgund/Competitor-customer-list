@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HaileyHR Prospect List — Huma HR Sales Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burgundy: #632340;
+  --yellow: #FFB64B;
+  --cream: #FBF1DB;
+  --lavender: #E5EEFF;
+  --sage: #EAECDF;
+  --blush: #FDD9E9;
+  --peach: #FCE9CF;
+  --dark: #2C2012;
+  --mid-grey: #CCCBCA;
+  --teal: #0097A7;
+  --white: #FFFFFF;
+  --bg-page: #F5EDD8;
+  --text-muted: rgba(44,32,18,0.55);
+  --text-label: rgba(44,32,18,0.38);
+  --border: rgba(44,32,18,0.10);
+  --border-dark: rgba(44,32,18,0.18);
+  --ff-head: 'Calistoga', serif;
+  --ff-body: 'Lato', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-page);color:var(--dark);font-family:var(--ff-body);-webkit-font-smoothing:antialiased}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero{background:var(--burgundy);padding:48px 56px 44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;border-radius:50%;background:var(--yellow);opacity:.07;width:520px;height:520px;right:-100px;top:-220px;pointer-events:none}
+.hero::after{content:'';position:absolute;border-radius:50%;background:var(--yellow);opacity:.05;width:280px;height:280px;right:220px;bottom:-140px;pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:1300px;margin:0 auto}
+.wordmark{font-family:var(--ff-head);font-size:18px;color:var(--yellow);letter-spacing:.06em;margin-bottom:20px;opacity:.9}
+.hero h1{font-family:var(--ff-head);font-size:46px;line-height:1.05;color:var(--white);margin-bottom:10px}
+.hero h1 .accent{color:var(--yellow)}
+.hero-sub{font-size:14px;color:rgba(251,241,219,.65);font-weight:300;line-height:1.6;max-width:560px;margin-bottom:28px}
+.hero-stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:0}
+.kpi{display:flex;align-items:center;gap:8px;background:rgba(255,182,75,.1);border:1px solid rgba(255,182,75,.25);border-radius:100px;padding:7px 16px 7px 12px}
+.kpi-dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);opacity:.7}
+.kpi-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,182,75,.6);margin-right:4px}
+.kpi-val{font-family:var(--ff-head);font-size:14px;color:var(--yellow)}
+
+/* ── CONTROLS ─────────────────────────────────── */
+.controls-wrap{background:var(--burgundy);border-top:1px solid rgba(255,182,75,.15);padding:0 56px 20px;position:sticky;top:0;z-index:100;box-shadow:0 4px 24px rgba(99,35,64,.25)}
+.controls-inner{max-width:1300px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:14px}
+.search-wrap{flex:1;min-width:200px;position:relative}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+input[type=text]{width:100%;height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:0 12px 0 36px;color:var(--white);font-family:var(--ff-body);font-size:13px}
+input[type=text]::placeholder{color:rgba(255,255,255,.35)}
+input[type=text]:focus{outline:none;border-color:rgba(255,182,75,.5);background:rgba(255,255,255,.12)}
+select{height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:0 10px;color:var(--white);font-family:var(--ff-body);font-size:12px;cursor:pointer;appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+select:focus{outline:none;border-color:rgba(255,182,75,.5)}
+select option{background:#4a1a30;color:var(--white)}
+.result-count{font-size:11px;color:rgba(255,182,75,.7);font-weight:700;white-space:nowrap;letter-spacing:.04em;padding:0 4px}
+
+/* ── MAIN CONTENT ─────────────────────────────── */
+.content{max-width:1300px;margin:0 auto;padding:32px 56px 56px}
+
+/* ── COUNTRY SUMMARY BARS ─────────────────────── */
+.country-section{margin-bottom:36px}
+.section-label-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-label)}
+.section-line{flex:1;height:1px;background:var(--border)}
+
+.country-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.country-card{background:var(--cream);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .15s}
+.country-card:hover,.country-card.active{border-color:var(--burgundy);box-shadow:0 3px 20px rgba(99,35,64,.12);background:var(--white)}
+.country-card.active{background:var(--burgundy)}
+.country-card.active .cc-name{color:var(--yellow)}
+.country-card.active .cc-count{color:var(--white)}
+.country-card.active .cc-bar-fill{background:var(--yellow)}
+.country-card.active .cc-pct{color:rgba(255,182,75,.7)}
+.cc-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cc-flag{font-size:22px;line-height:1}
+.cc-name{font-family:var(--ff-head);font-size:15px;color:var(--dark)}
+.cc-count{font-family:var(--ff-head);font-size:28px;color:var(--burgundy);margin-bottom:4px}
+.cc-bar-track{height:3px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.cc-bar-fill{height:100%;border-radius:3px;background:var(--burgundy);transition:width .4s}
+.cc-pct{font-size:10px;font-weight:700;color:var(--text-label);letter-spacing:.06em}
+
+/* ── TABLE ────────────────────────────────────── */
+.table-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 24px rgba(44,32,18,.06)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead tr{background:var(--burgundy)}
+thead th{color:var(--cream);font-weight:700;padding:11px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;cursor:pointer;user-select:none;transition:background .12s}
+thead th:hover{background:rgba(255,255,255,.08)}
+thead th .sort-icon{opacity:.4;margin-left:4px;font-size:9px}
+thead th.sorted .sort-icon{opacity:1;color:var(--yellow)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:default}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--peach)}
+td{padding:9px 14px;vertical-align:middle;color:var(--dark)}
+td.num{color:var(--mid-grey);font-size:11px;font-weight:700;text-align:center;width:36px}
+td.company{font-weight:700;font-size:13px}
+td.subdomain{font-family:monospace;font-size:11px;color:var(--burgundy);opacity:.8}
+.no-results{text-align:center;padding:48px;color:var(--text-muted);font-style:italic}
+
+/* ── SOURCE PILLS ─────────────────────────────── */
+.pill{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.pill-career{background:var(--lavender);color:#2a4a9f}
+.pill-case{background:var(--sage);color:#3a4a20}
+.pill-both{background:var(--yellow);color:var(--burgundy)}
+.pill-mention{background:var(--blush);color:#7a1a40}
+
+/* ── INDUSTRY CHIPS ───────────────────────────── */
+.ind-chip{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid;white-space:nowrap}
+.ind-tech{border-color:#2a4a9f;color:#2a4a9f;background:rgba(42,74,159,.06)}
+.ind-finance{border-color:#2a5a20;color:#2a5a20;background:rgba(42,90,32,.06)}
+.ind-health{border-color:#085041;color:#085041;background:rgba(8,80,65,.06)}
+.ind-media{border-color:#7a1a40;color:#7a1a40;background:rgba(122,26,64,.06)}
+.ind-construction{border-color:#7a3a00;color:#7a3a00;background:rgba(122,58,0,.06)}
+.ind-energy{border-color:#8B5E00;color:#8B5E00;background:rgba(139,94,0,.06)}
+.ind-retail{border-color:#633806;color:#633806;background:rgba(99,56,6,.06)}
+.ind-transport{border-color:#1a5a4a;color:#1a5a4a;background:rgba(26,90,74,.06)}
+.ind-sport{border-color:var(--burgundy);color:var(--burgundy);background:rgba(99,35,64,.06)}
+.ind-realestate{border-color:#4a1a8f;color:#4a1a8f;background:rgba(74,26,143,.06)}
+.ind-other{border-color:var(--mid-grey);color:var(--text-muted);background:transparent}
+
+/* ── CHECKBOX ─────────────────────────────────── */
+td.cb-cell{width:38px;text-align:center;padding:6px 8px}
+.cb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:2px solid var(--mid-grey);border-radius:5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;background:var(--white);vertical-align:middle;flex-shrink:0}
+.cb:hover{border-color:var(--burgundy)}
+.cb:checked{background:var(--burgundy);border-color:var(--burgundy)}
+.cb:checked::after{content:'✓';color:var(--yellow);font-size:11px;font-weight:900;line-height:1}
+tbody tr.called{background:#f0ede8 !important}
+tbody tr.called td.company{color:var(--mid-grey);text-decoration:line-through;text-decoration-color:var(--burgundy)}
+tbody tr.called:hover{background:#e8e4df !important}
+.called-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(99,35,64,.12);border:1px solid rgba(99,35,64,.2);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:700;color:var(--burgundy);letter-spacing:.06em}
+.called-badge .cb-count{font-family:var(--ff-head);font-size:13px;color:var(--burgundy)}
+.filter-called{height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:0 14px;color:var(--white);font-family:var(--ff-body);font-size:12px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .15s}
+.filter-called:hover,.filter-called.active{background:rgba(255,182,75,.18);border-color:rgba(255,182,75,.5);color:var(--yellow)}
+.filter-called .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.7}
+
+/* ── LINK ─────────────────────────────────────── */
+.link-btn{display:inline-flex;align-items:center;gap:4px;color:var(--teal);font-size:11px;font-weight:700;text-decoration:none;padding:3px 8px;border-radius:6px;background:rgba(0,151,167,.08);transition:background .12s}
+.link-btn:hover{background:rgba(0,151,167,.16)}
+.link-btn svg{opacity:.7}
+
+/* ── FOOTER ───────────────────────────────────── */
+.footer{background:var(--burgundy);padding:24px 56px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left{font-size:11px;color:rgba(251,241,219,.4);font-weight:300}
+.footer-tag{font-family:var(--ff-head);font-size:12px;color:var(--yellow);background:rgba(255,182,75,.1);border:1px solid rgba(255,182,75,.25);padding:5px 18px;border-radius:100px}
+
+/* ── ANIMATIONS ───────────────────────────────── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero-inner{animation:fadeIn .45s ease}
+.table-wrap{animation:fadeIn .4s ease .1s both}
+.country-grid{animation:fadeIn .4s ease .05s both}
+
+/* ── SCROLLBAR ────────────────────────────────── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--mid-grey);border-radius:3px}
+
+@media(max-width:768px){
+  .hero{padding:32px 20px 28px}
+  .controls-wrap{padding:0 20px 14px}
+  .content{padding:20px 20px 40px}
+  .footer{padding:20px}
+  .hero h1{font-size:32px}
+  .country-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  td.subdomain,th.th-sub{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="wordmark">huma</div>
+    <h1>HaileyHR <span class="accent">Outbound</span><br>Prospect List</h1>
+    <p class="hero-sub">128 confirmed HaileyHR customers identified via career page subdomains, official case studies & homepage testimonials. These are your competitors' paying customers.</p>
+    <div class="hero-stats">
+      <div class="kpi"><div class="kpi-dot"></div><span class="kpi-label">Companies</span><span class="kpi-val">128</span></div>
+      <div class="kpi"><div class="kpi-dot"></div><span class="kpi-label">Career pages</span><span class="kpi-val">111</span></div>
+      <div class="kpi"><div class="kpi-dot"></div><span class="kpi-label">Case studies</span><span class="kpi-val">15</span></div>
+      <div class="kpi"><div class="kpi-dot"></div><span class="kpi-label">Countries</span><span class="kpi-val">6</span></div>
+      <div class="kpi" id="calledKpi" style="border-color:rgba(255,182,75,.5);background:rgba(255,182,75,.15)"><div class="kpi-dot" style="background:var(--yellow);opacity:1"></div><span class="kpi-label">Called</span><span class="kpi-val" id="calledCount">0</span><span class="kpi-label" style="margin-left:2px">/ 128</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls-wrap">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search company, subdomain, notes…">
+    </div>
+    <select id="filterCountry">
+      <option value="">All countries</option>
+      <option value="Sweden">🇸🇪 Sweden</option>
+      <option value="Finland">🇫🇮 Finland</option>
+      <option value="Norway">🇳🇴 Norway</option>
+      <option value="Denmark">🇩🇰 Denmark</option>
+      <option value="UK">🇬🇧 UK</option>
+      <option value="Malta">🇲🇹 Malta</option>
+    </select>
+    <select id="filterSource">
+      <option value="">All sources</option>
+      <option value="Career page">Career page</option>
+      <option value="Case study">Case study</option>
+      <option value="Both">Both</option>
+      <option value="Homepage mention">Homepage mention</option>
+    </select>
+    <select id="filterIndustry">
+      <option value="">All industries</option>
+      <option value="Tech / Software">Tech / Software</option>
+      <option value="Finance">Finance</option>
+      <option value="Other">Other</option>
+      <option value="Construction">Construction</option>
+      <option value="Retail / Hospitality">Retail / Hospitality</option>
+      <option value="Health">Health</option>
+      <option value="Media / Creative">Media / Creative</option>
+      <option value="Transport">Transport</option>
+      <option value="Energy">Energy</option>
+      <option value="Sport">Sport</option>
+      <option value="Real Estate">Real Estate</option>
+    </select>
+    <div class="result-count" id="resultCount">114 companies</div>
+    <button class="filter-called" id="filterCalled" onclick="toggleCalledFilter()"><div class="dot"></div>Called only</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- COUNTRY SUMMARY -->
+  <div class="country-section">
+    <div class="section-label-row">
+      <div class="section-line"></div>
+      <div class="section-label">Breakdown by country — click to filter</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="country-grid" id="countryGrid"></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section-label-row" style="margin-bottom:12px">
+    <div class="section-line"></div>
+    <div class="section-label">All prospects</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:38px;text-align:center" title="Check off companies you've called">✓</th>
+          <th style="width:36px">#</th>
+          <th data-col="name">Company <span class="sort-icon">↕</span></th>
+          <th data-col="sub" class="th-sub">Subdomain <span class="sort-icon">↕</span></th>
+          <th data-col="industry">Industry <span class="sort-icon">↕</span></th>
+          <th data-col="source">Source <span class="sort-icon">↕</span></th>
+          <th data-col="country">Country <span class="sort-icon">↕</span></th>
+          <th>Link</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Huma HR Sales Intelligence · Sourced April 2026 · 128 companies identified</div>
+  <div class="footer-tag">Lokal HR, lekende lett.</div>
+</div>
+
+<script>
+// ── localStorage ──────────────────────────────────────────
+const STORAGE_KEY = 'huma_haileyhr_called_v1';
+let calledSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+function saveCalled() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...calledSet]));
+  document.getElementById('calledCount').textContent = calledSet.size;
+}
+
+function toggleCalled(name) {
+  if (calledSet.has(name)) calledSet.delete(name);
+  else calledSet.add(name);
+  saveCalled();
+  if (showCalledOnly) { applyFilters(); return; }
+  // Update the row visually without a full re-render
+  document.querySelectorAll(`#tableBody tr[data-name="${CSS.escape(name)}"]`).forEach(tr => {
+    const isCalled = calledSet.has(name);
+    tr.classList.toggle('called', isCalled);
+    const cb = tr.querySelector('.cb');
+    if (cb) cb.checked = isCalled;
+  });
+}
+
+let showCalledOnly = false;
+function toggleCalledFilter() {
+  showCalledOnly = !showCalledOnly;
+  document.getElementById('filterCalled').classList.toggle('active', showCalledOnly);
+  applyFilters();
+}
+
+const data = [
+  ["Involvus","involvus","Other","Career page","Sweden","https://involvus.careers.haileyhr.app","",""],
+  ["Modelon","modelon","Tech / Software","Career page","Sweden","https://modelon.careers.haileyhr.app","","Simulation software"],
+  ["Codemill","codemill","Media / Creative","Career page","Sweden","https://codemill.careers.haileyhr.app","","Media tech"],
+  ["Elantil","elantil","Tech / Software","Career page","Malta","https://elantil.careers.haileyhr.app","","Engineering, Malta"],
+  ["Hamina","hamina","Tech / Software","Career page","Finland","https://hamina.careers.haileyhr.app","","Wi-Fi / Private 5G / IoT"],
+  ["Rodeo","rodeo","Retail / Hospitality","Career page","Denmark","https://rodeo.careers.haileyhr.app","","Hair salon concept"],
+  ["Invise","invise","Tech / Software","Career page","Sweden","https://invise.careers.haileyhr.app","",""],
+  ["Brink","brink","Tech / Software","Career page","Sweden","https://brink.careers.haileyhr.app","","Game tech"],
+  ["TP-Link Nordic","tp-linknordic","Tech / Software","Career page","Sweden","https://tp-linknordic.careers.haileyhr.app","","Networking & smart tech"],
+  ["Feed Bistro","feed","Retail / Hospitality","Career page","Sweden","https://feed.careers.haileyhr.app","",""],
+  ["Star IT","starit","Tech / Software","Career page","Sweden","https://starit.careers.haileyhr.app","",""],
+  ["Nordic Crisis Management","nordic-crisis","Other","Career page","Sweden","https://nordic-crisis.careers.haileyhr.app","",""],
+  ["Tenstar Simulation","tenstarsimulation","Tech / Software","Career page","Sweden","https://tenstarsimulation.careers.haileyhr.app","","Simulation & training"],
+  ["Nordic Finance","nordicfinance","Finance","Career page","Norway","https://nordicfinance.careers.haileyhr.app","",""],
+  ["Bjorn Lunden","jobb","Finance","Career page","Sweden","https://jobb.careers.haileyhr.app","","Swedish accounting software"],
+  ["Everon Group","everon-group","Health","Career page","Sweden","https://everon-group.careers.haileyhr.app","","Health tech"],
+  ["N2 Creative","n2creative","Media / Creative","Career page","Finland","https://n2creative.careers.haileyhr.app","","Finnish creative agency"],
+  ["Mellakka","mellakka","Media / Creative","Career page","Finland","https://mellakka.careers.haileyhr.app","","Finnish media / content"],
+  ["Remman Mobility Group","remmangroup","Transport","Career page","Norway","https://remmangroup.careers.haileyhr.app","","Mobility / transport"],
+  ["HyperIn","hyperincareerpage","Tech / Software","Both","Finland","https://hyperincareerpage.careers.haileyhr.app","https://haileyhr.com/case-stories/hailey-brought-clarity-structure-and-peace-of-mind/","250+ shopping malls, EU & Asia"],
+  ["Safespring","safespring","Tech / Software","Career page","Sweden","https://safespring.careers.haileyhr.app","","European cloud infrastructure"],
+  ["Vastuugroup","vastuugroup","Other","Career page","Finland","https://vastuugroup.careers.haileyhr.app","","Finland"],
+  ["Strand Hotell Borgholm","strandborgholm","Retail / Hospitality","Career page","Sweden","https://strandborgholm.careers.haileyhr.app","","Hotel, Öland"],
+  ["Steady Energy","steadyenergy","Energy","Career page","Finland","https://steadyenergy.careers.haileyhr.app","","Nuclear energy tech, Espoo"],
+  ["Nest AI","nestai","Tech / Software","Career page","Sweden","https://nestai.careers.haileyhr.app","","Physical AI"],
+  ["Forge Digital","forgedigital","Tech / Software","Career page","Norway","https://forgedigital.careers.haileyhr.app","","Industrial digitalization"],
+  ["Slättö","slatto","Finance","Career page","Sweden","https://slatto.careers.haileyhr.app","","Real estate debt financing"],
+  ["Hemnet","","Tech / Software","Case study","Sweden","","https://haileyhr.com/case-stories/hemnet/","Sweden's #1 property platform"],
+  ["First Light Fusion","firstlightfusion","Energy","Both","UK","https://firstlightfusion.careers.haileyhr.app","https://haileyhr.com/case-stories/first-light-fusion/",""],
+  ["Fortnox","","Finance","Homepage mention","Sweden","","https://haileyhr.com/case-stories/fortnox/","Major Swedish accounting SaaS"],
+  ["Balanco","","Finance","Case study","Sweden","","https://haileyhr.com/case-stories/balanco_/",""],
+  ["Mips","","Other","Case study","Sweden","","https://haileyhr.com/case-stories/mips-case-story/","Helmet safety company"],
+  ["Candeno","","Tech / Software","Case study","Denmark","","https://haileyhr.com/case-stories/candeno/","Danish job search platform"],
+  ["Swedish Institute for Standards (SIS)","","Other","Case study","Sweden","","https://haileyhr.com/case-stories/swedish-institute-for-standards/",""],
+  ["AMF Fastigheter","","Real Estate","Case study","Sweden","","https://haileyhr.com/case-stories/amf-fastigheter-save-time/","Major Swedish real estate"],
+  ["Enerpoly","","Energy","Case study","Sweden","","https://haileyhr.com/case-stories/enerpoly/","Zinc-ion batteries"],
+  ["Klättercentret","","Retail / Hospitality","Case study","Sweden","","https://haileyhr.com/case-stories/klattercentret/",""],
+  ["Fellowmind Denmark","","Tech / Software","Case study","Denmark","","https://haileyhr.com/case-stories/fellowmind-denmark/","Microsoft cloud, 500 employees"],
+  ["Prenax","","Other","Case study","Sweden","","https://haileyhr.com/case-stories/prenax/","11 countries, global procurement"],
+  ["Aarke","","Other","Case study","Sweden","","https://haileyhr.com/case-stories/why-aarke-chose-hailey/","Swedish premium design"],
+  ["Fyge","","Retail / Hospitality","Case study","Finland","","https://haileyhr.com/case-stories/case-story-fyge/","Finnish catering, Helsinki"],
+  ["Plantvision","","Other","Case study","Sweden","","https://haileyhr.com/case-stories/why-plantvision-chose-hailey-hr/","Manufacturing consultants"],
+  ["Getswish AB","","Finance","Homepage mention","Sweden","","","Homepage testimonial"],
+  ["Informationsteknik","informationsteknik","Tech / Software","Career page","Sweden","https://informationsteknik.careers.haileyhr.app","","Swedish IT company"],
+  ["Passalen","passalen","Other","Career page","Sweden","https://passalen.careers.haileyhr.app","","Youth/disability inclusion, Stockholm"],
+  ["Assistansporten","assistansporten","Health","Career page","Sweden","https://assistansporten.careers.haileyhr.app","","Home care services, Stockholm"],
+  ["Företagarna","foretagarna","Other","Career page","Sweden","https://foretagarna.careers.haileyhr.app","","Sweden's largest business org, 60k+ members"],
+  ["Magello","magello","Tech / Software","Career page","Sweden","https://magello.careers.haileyhr.app","","Integration & cloud, Stockholm"],
+  ["Maskinia","maskinia","Construction","Career page","Sweden","https://maskinia.careers.haileyhr.app","","Construction consultancy"],
+  ["Elcykelpunkten","elcykelpunkten","Retail / Hospitality","Career page","Sweden","https://elcykelpunkten.careers.haileyhr.app","","E-bike retail"],
+  ["Leksands IF","leksandsif","Sport","Career page","Sweden","https://leksandsif.careers.haileyhr.app","","Swedish ice hockey club"],
+  ["Early Bird","earlybird","Media / Creative","Career page","Sweden","https://earlybird.careers.haileyhr.app","","Stockholm"],
+  ["Foyen","foyen","Finance","Career page","Sweden","https://foyen.careers.haileyhr.app","","Swedish law firm, construction & RE"],
+  ["Smart Recycling","smartrecycling","Other","Career page","Sweden","https://smartrecycling.careers.haileyhr.app","","Sustainable recycling"],
+  ["Fryshuset","fryshusetinternt","Other","Career page","Sweden","https://fryshusetinternt.careers.haileyhr.app","","Stockholm cultural hub"],
+  ["Ström & Gulliksson","stromgulliksson","Finance","Career page","Sweden","https://stromgulliksson.careers.haileyhr.app","","Swedish law firm"],
+  ["Rögle BK","roglejobb","Sport","Career page","Sweden","https://roglejobb.careers.haileyhr.app","","Swedish hockey club (SHL)"],
+  ["OWL","owl","Finance","Career page","Sweden","https://owl.careers.haileyhr.app","","Accounting firm"],
+  ["CAG Datastöd","cag-datastod","Tech / Software","Career page","Sweden","https://cag-datastod.careers.haileyhr.app","","Network/VMware/Microsoft IT"],
+  ["Svea Vaccin","sveavaccin","Health","Career page","Sweden","https://sveavaccin.careers.haileyhr.app","","Vaccine/healthcare clinics"],
+  ["Looström","loostrom","Construction","Career page","Sweden","https://loostrom.careers.haileyhr.app","","Construction company"],
+  ["Tågab","tagab","Transport","Career page","Sweden","https://tagab.careers.haileyhr.app","","Swedish railway operator"],
+  ["VBK","vbk","Construction","Career page","Sweden","https://vbk.careers.haileyhr.app","","Engineering/construction"],
+  ["Inmatiq","inmatiq","Tech / Software","Career page","Sweden","https://inmatiq.careers.haileyhr.app","","Automation & digitalization"],
+  ["Medlink","medlink","Health","Career page","Sweden","https://medlink.careers.haileyhr.app","","Healthcare staffing"],
+  ["Universum Global","universumglobal","Other","Career page","Sweden","https://universumglobal.careers.haileyhr.app","","Global employer branding"],
+  ["TJSS","tjss","Other","Career page","Sweden","https://tjss.careers.haileyhr.app","","International education"],
+  ["Animech","animech","Tech / Software","Career page","Sweden","https://animech.careers.haileyhr.app","","3D tech studio"],
+  ["Didriksons","didriksons","Retail / Hospitality","Career page","Sweden","https://didriksons.careers.haileyhr.app","","Swedish outdoor clothing brand"],
+  ["Amosrex","amosrex","Tech / Software","Career page","Sweden","https://amosrex.careers.haileyhr.app","",""],
+  ["Coatsink","coatsink","Tech / Software","Career page","UK","https://coatsink.careers.haileyhr.app","","UK game studio"],
+  ["Processkontroll GT","processkontrollgt","Other","Career page","Sweden","https://processkontrollgt.careers.haileyhr.app","","Environmental focus"],
+  ["Telehantering","telehantering","Other","Career page","Sweden","https://telehantering.careers.haileyhr.app","",""],
+  ["Engelsons","jobba-hos-engelsons","Retail / Hospitality","Career page","Sweden","https://jobba-hos-engelsons.careers.haileyhr.app","",""],
+  ["Mirror","mirror","Other","Career page","Sweden","https://mirror.careers.haileyhr.app","",""],
+  ["LPE Sverige","lpe-sverigeab","Construction","Career page","Sweden","https://lpe-sverigeab.careers.haileyhr.app","",""],
+  ["2Secure Sverige","2securesverige","Other","Career page","Sweden","https://2securesverige.careers.haileyhr.app","","Security/strategic advisory"],
+  ["Cedra","cedra","Finance","Career page","Sweden","https://cedra.careers.haileyhr.app","","Fast-growing audit firm, 600+ staff, 30+ offices"],
+  ["Byggvarubedömningen","byggvarubedomningen","Construction","Career page","Sweden","https://byggvarubedomningen.careers.haileyhr.app","","Building materials sustainability"],
+  ["GRK Sverige","grksverige","Construction","Career page","Sweden","https://grksverige.careers.haileyhr.app","","Railway construction"],
+  ["Svensk Byggtjänst","svenskbyggtjanst","Construction","Career page","Sweden","https://svenskbyggtjanst.careers.haileyhr.app","","Sustainable construction services"],
+  ["Askås","askas","Tech / Software","Career page","Sweden","https://askas.careers.haileyhr.app","","E-commerce platform, Borås"],
+  ["Peterson & Hansson","petersonochhansson","Other","Career page","Sweden","https://petersonochhansson.careers.haileyhr.app","",""],
+  ["Systemhall","systemhall","Tech / Software","Career page","Sweden","https://systemhall.careers.haileyhr.app","","Electrical & automation engineering"],
+  ["Mentor","mentor","Other","Career page","Sweden","https://mentor.careers.haileyhr.app","",""],
+  ["Tranemo Trädgårdstjänst","ttj","Other","Career page","Sweden","https://ttj.careers.haileyhr.app","","Landscaping/garden services"],
+  ["Veni","veni","Other","Career page","Norway","https://veni.careers.haileyhr.app","","Norway"],
+  ["Cedra Norge","cedranorge","Finance","Career page","Norway","https://cedranorge.careers.haileyhr.app","","Norwegian audit & advisory"],
+  ["BK","bk","Media / Creative","Career page","Norway","https://bk.careers.haileyhr.app","","Production, technology & creativity"],
+  ["Invinite","invinite","Health","Career page","Finland","https://invinite.careers.haileyhr.app","","Healthcare data tech"],
+  ["Numbers","numbers","Finance","Career page","Finland","https://numbers.careers.haileyhr.app","","Finnish accounting, fast-growing"],
+  ["Heltti","heltti","Health","Career page","Finland","https://heltti.careers.haileyhr.app","","Knowledge worker health services"],
+  ["Lasten ja Nuorten Säätiö","nuori","Other","Career page","Finland","https://nuori.careers.haileyhr.app","","Finnish foundation for children & youth"],
+  ["KPO","kpo","Other","Career page","Finland","https://kpo.careers.haileyhr.app","","Finnish telecom/consumer company"],
+  ["Harriniva Hotels & Safaris","harriniva","Retail / Hospitality","Career page","Finland","https://harriniva.careers.haileyhr.app","","Wilderness resort, Finnish Lapland"],
+  ["Harriniva (FI)","harrinivasuomi","Retail / Hospitality","Career page","Finland","https://harrinivasuomi.careers.haileyhr.app","","Finnish-language page for Harriniva"],
+  ["Adnami","adnami","Tech / Software","Career page","Denmark","https://adnami.careers.haileyhr.app","","Danish AdTech scaleup, EU expansion"],
+  ["KöD London","koed-uk","Retail / Hospitality","Career page","UK","https://koed-uk.careers.haileyhr.app","","Scandinavian premium steakhouse, London"],
+  ["Exacta","exacta","Transport","Career page","Sweden","https://exacta.careers.haileyhr.app","","Logistics & warehousing, Örebro"],
+  ["Familjo","familjo","Other","Career page","Sweden","https://familjo.careers.haileyhr.app","","Family services, Sweden"],
+  ["Coeli","coeli","Finance","Career page","Sweden","https://coeli.careers.haileyhr.app","","Swedish fund/asset management"],
+  ["Tretorn","tretorn","Retail / Hospitality","Career page","Sweden","https://tretorn.careers.haileyhr.app","","Swedish outdoor/lifestyle brand"],
+  ["IMD Sverige","imdsverige","Other","Career page","Sweden","https://imdsverige.careers.haileyhr.app","","Environmental company, Svedala"],
+  ["AA Logistik","aalogistik","Transport","Career page","Sweden","https://aalogistik.careers.haileyhr.app","","Swedish logistics company"],
+  ["Venture Job","venturejob","Other","Career page","Sweden","https://venturejob.careers.haileyhr.app","",""],
+  ["Agilokliniken","agilokliniken","Health","Career page","Sweden","https://agilokliniken.careers.haileyhr.app","","Physio/naprapati near Strawberry Arena"],
+  ["Bano Life","banolife","Health","Career page","Sweden","https://banolife.careers.haileyhr.app","","Everyday health improvement"],
+  ["Sensire","sensire","Health","Career page","Finland","https://sensire.careers.haileyhr.app","","Finnish health/care company"],
+  ["Ekologigruppen","ekologigruppen","Other","Career page","Sweden","https://ekologigruppen.careers.haileyhr.app","","Ecological & sustainability consultants"],
+  ["Esri Sverige","esrisverige","Tech / Software","Career page","Sweden","https://esrisverige.careers.haileyhr.app","","Sweden's largest GIS provider (ArcGIS)"],
+  ["Addedo","addedo-careers","Finance","Career page","Sweden","https://addedo-careers.careers.haileyhr.app","","Finance/reporting consultancy"],
+  ["BITS Data","bitsdata","Tech / Software","Career page","Sweden","https://bitsdata.careers.haileyhr.app","","Swedish IT/data company"],
+  ["Gop","gop","Other","Career page","Sweden","https://gop.careers.haileyhr.app","","Sweden"],
+  ["Green Östergötland","greenostergotland","Other","Career page","Sweden","https://greenostergotland.careers.haileyhr.app","","Outdoor/environment services"],
+  ["RSM Sweden","rsm","Finance","Career page","Sweden","https://rsm.careers.haileyhr.app","","Swedish audit & advisory, global RSM network"],
+  ["Universeum","universeum","Other","Career page","Sweden","https://universeum.careers.haileyhr.app","","Göteborg science centre & museum"],
+  ["Bilmånsson","bilmansson","Retail / Hospitality","Career page","Sweden","https://bilmansson.careers.haileyhr.app","","Swedish car dealership group"],
+  ["OWL Östersund","owl-ostersund","Finance","Career page","Sweden","https://owl-ostersund.careers.haileyhr.app","","Accounting & advisory, Östersund"],
+  ["CreActive","creactive","Finance","Career page","Sweden","https://creactive.careers.haileyhr.app","","Ekonomibolaget & Lön & HR Bolaget group"],
+  ["EcoGuard","ecoguard","Other","Career page","Sweden","https://ecoguard.careers.haileyhr.app","","Sustainability tech products & services"],
+  ["SweQ Consulting","sweqconsulting","Other","Career page","Sweden","https://sweqconsulting.careers.haileyhr.app","","Engineering, IT & HR consultancy"],
+  ["Hedlunds","hedlunds","Retail / Hospitality","Career page","Sweden","https://hedlunds.careers.haileyhr.app","","Growing Swedish distributor"],
+  ["ROL Group","rol","Other","Career page","Sweden","https://rol.careers.haileyhr.app","","Office furniture & retail solutions, SEK 2.1bn, 900 staff globally"],
+  ["DB Equipment","dbequipment","Other","Career page","Sweden","https://dbequipment.careers.haileyhr.app","","Global equipment company"],
+  ["Mercodia","mercodia","Health","Career page","Sweden","https://mercodia.careers.haileyhr.app","","Biotech / immunoassay diagnostics, Uppsala, since 1991"],
+  ["Citysalj","citysalj","Other","Career page","Sweden","https://citysalj.careers.haileyhr.app","","Swedish sales company"],
+  ["Bano Group","bano","Health","Career page","Norway","https://bano.careers.haileyhr.app","","Norwegian healthcare bathroom solutions, offices in NO/SE/DK/FI/NL/DE"],
+  ["Bano Prefab","banoprefab","Construction","Career page","Norway","https://banoprefab.careers.haileyhr.app","","Prefab bathroom pods for healthcare sector"],
+];
+
+const flags = {Sweden:"🇸🇪",Finland:"🇫🇮",Norway:"🇳🇴",Denmark:"🇩🇰",UK:"🇬🇧",Malta:"🇲🇹"};
+const srcClass = {"Career page":"pill-career","Case study":"pill-case","Both":"pill-both","Homepage mention":"pill-mention"};
+const indClass = {
+  "Tech / Software":"ind-tech","Finance":"ind-finance","Health":"ind-health",
+  "Media / Creative":"ind-media","Construction":"ind-construction","Energy":"ind-energy",
+  "Retail / Hospitality":"ind-retail","Transport":"ind-transport","Sport":"ind-sport",
+  "Real Estate":"ind-realestate","Other":"ind-other"
+};
+
+let filtered = [...data];
+let sortCol = null, sortAsc = true;
+let activeCountry = null;
+
+// Country summary
+function buildCountryCards() {
+  const counts = {};
+  data.forEach(r => counts[r[4]] = (counts[r[4]]||0)+1);
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max = sorted[0][1];
+  const grid = document.getElementById('countryGrid');
+  grid.innerHTML = sorted.map(([country, count]) => {
+    const pct = Math.round(count/data.length*100);
+    return `<div class="country-card" data-country="${country}" onclick="toggleCountry('${country}')">
+      <div class="cc-header"><span class="cc-flag">${flags[country]||'🌍'}</span><span class="cc-name">${country}</span></div>
+      <div class="cc-count">${count}</div>
+      <div class="cc-bar-track"><div class="cc-bar-fill" style="width:${Math.round(count/max*100)}%"></div></div>
+      <div class="cc-pct">${pct}% of total</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCountry(country) {
+  if (activeCountry === country) {
+    activeCountry = null;
+    document.getElementById('filterCountry').value = '';
+  } else {
+    activeCountry = country;
+    document.getElementById('filterCountry').value = country;
+  }
+  document.querySelectorAll('.country-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.country === activeCountry);
+  });
+  applyFilters();
+}
+
+// Filters
+function applyFilters() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const country = document.getElementById('filterCountry').value;
+  const source = document.getElementById('filterSource').value;
+  const industry = document.getElementById('filterIndustry').value;
+
+  filtered = data.filter(r => {
+    const [name, sub, ind, src, cntry,, , notes] = r;
+    if (showCalledOnly && !calledSet.has(name)) return false;
+    if (q && !name.toLowerCase().includes(q) && !sub.toLowerCase().includes(q) && !(notes||'').toLowerCase().includes(q)) return false;
+    if (country && cntry !== country) return false;
+    if (source && src !== source) return false;
+    if (industry && ind !== industry) return false;
+    return true;
+  });
+
+  if (sortCol !== null) {
+    filtered.sort((a,b) => {
+      const va = a[sortCol]||'', vb = b[sortCol]||'';
+      return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+  }
+
+  renderTable();
+}
+
+// Sort
+const colMap = {name:0, sub:1, industry:2, source:3, country:4};
+document.querySelectorAll('thead th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = colMap[th.dataset.col];
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = true; }
+    document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted'));
+    th.classList.add('sorted');
+    th.querySelector('.sort-icon').textContent = sortAsc ? '↑' : '↓';
+    applyFilters();
+  });
+});
+
+function renderTable() {
+  const tb = document.getElementById('tableBody');
+  document.getElementById('resultCount').textContent = filtered.length + ' companies';
+
+  if (!filtered.length) {
+    tb.innerHTML = `<tr><td colspan="9" class="no-results">No companies match your filters.</td></tr>`;
+    return;
+  }
+
+  tb.innerHTML = filtered.map((r, i) => {
+    const [name, sub, ind, src, country, curl, csurl, notes] = r;
+    const isCalled = calledSet.has(name);
+    const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const link = (curl || csurl)
+      ? `<a href="${curl||csurl}" target="_blank" class="link-btn">${curl?'Career page':'Case study'}<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+      : `<span style="color:var(--mid-grey);font-size:11px">—</span>`;
+    return `<tr data-name="${name.replace(/"/g,'&quot;')}" class="${isCalled?'called':''}">
+      <td class="cb-cell"><input type="checkbox" class="cb" ${isCalled?'checked':''} onchange="toggleCalled('${safeName}')"></td>
+      <td class="num">${i+1}</td>
+      <td class="company">${name}</td>
+      <td class="subdomain">${sub || '—'}</td>
+      <td><span class="ind-chip ${indClass[ind]||'ind-other'}">${ind}</span></td>
+      <td><span class="pill ${srcClass[src]||''}">${src}</span></td>
+      <td>${flags[country]||''} ${country}</td>
+      <td>${link}</td>
+      <td style="color:var(--text-muted);font-size:11px;max-width:180px">${notes||''}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Sync country filter dropdown with card clicks
+document.getElementById('filterCountry').addEventListener('change', e => {
+  activeCountry = e.target.value || null;
+  document.querySelectorAll('.country-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.country === activeCountry);
+  });
+  applyFilters();
+});
+document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('filterSource').addEventListener('change', applyFilters);
+document.getElementById('filterIndustry').addEventListener('change', applyFilters);
+
+buildCountryCards();
+document.getElementById('calledCount').textContent = calledSet.size;
+renderTable();
+</script>
+</body>
+</html>
